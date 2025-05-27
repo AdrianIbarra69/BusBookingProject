@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="525.0" prefWidth="449.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #4facfe, #00f2fe);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.LoadingScreenController">
+   <ImageView fitHeight="294.0" fitWidth="299.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../image/Gemini_Generated_Image_lklvbdlklvbdlklv.jpg" />
+      </image>
+   </ImageView>
+
+    <!-- Loading Title -->
+    <Label style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;" text="Loading, please wait..." />
+
+    <!-- Progress Bar -->
+    <ProgressBar fx:id="progressBar" prefWidth="300" progress="0.52" style="-fx-accent: #ffffff;" />
+
+</VBox>

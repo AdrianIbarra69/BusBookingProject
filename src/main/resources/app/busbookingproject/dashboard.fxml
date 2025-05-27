@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="900.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #D7E8F7, #A3CFF7);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.BusBookingController">
+    <children>
+        <!-- Background Image -->
+        <ImageView fitHeight="900.0" fitWidth="1408.0" opacity="0.24" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../../image/May%2027,%202025,%2005_21_52%20AM.png" />
+            </image>
+        </ImageView>
+
+        <!-- Main VBox -->
+        <VBox alignment="CENTER" prefHeight="900.0" prefWidth="1491.0" spacing="20" style="-fx-padding: 50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
+
+            <!-- Header Section -->
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Bus Booking Dashboard" />
+
+            <!-- Form and Image Section -->
+            <HBox alignment="CENTER" prefHeight="500.0" prefWidth="1500.0" spacing="30">
+                <children>
+
+                    <!-- Booking Form -->
+                    <VBox alignment="CENTER" prefHeight="322.0" prefWidth="796.0" spacing="20" style="-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f9f9f9; -fx-padding: 20;">
+                        <children>
+                            <!-- Form Fields -->
+                            <Pane prefHeight="400.0" prefWidth="700.0">
+                                <children>
+                                    <TextField fx:id="nameField" layoutX="73.0" layoutY="20.0" prefHeight="39.0" prefWidth="170.0" promptText="Enter your name" />
+                                    <TextField fx:id="contactField" layoutX="422.0" layoutY="20.0" prefHeight="35.0" prefWidth="170.0" promptText="Enter contact number" />
+                                    <ComboBox fx:id="fromComboBox" layoutX="73.0" layoutY="80.0" prefHeight="35.0" prefWidth="170.0" promptText="Choose origin" />
+                                    <ComboBox fx:id="toComboBox" layoutX="422.0" layoutY="80.0" prefHeight="35.0" prefWidth="170.0" promptText="Choose destination" />
+                                    <ComboBox fx:id="busNameComboBox" layoutX="73.0" layoutY="140.0" prefHeight="35.0" prefWidth="170.0" promptText="Select bus" />
+                                    <DatePicker fx:id="datePicker" layoutX="422.0" layoutY="140.0" prefHeight="35.0" prefWidth="170.0" promptText="Select date" />
+                                    <ComboBox fx:id="seatComboBox" layoutX="73.0" layoutY="200.0" prefHeight="35.0" prefWidth="170.0" promptText="Select number of seats" />
+                           <Label layoutX="337.0" layoutY="21.0" prefHeight="35.0" prefWidth="73.0" text="Contact No.">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="337.0" layoutY="82.0" prefHeight="35.0" prefWidth="73.0" text="Destination:">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="337.0" layoutY="144.0" prefHeight="35.0" prefWidth="41.0" text="Date:">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="20.0" layoutY="22.0" prefHeight="35.0" prefWidth="41.0" text="Name:">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="20.0" layoutY="80.0" prefHeight="35.0" prefWidth="73.0" text="From:">
+                              <font>
+                                 <Font name="System Bold" size="14.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="20.0" layoutY="140.0" prefHeight="35.0" prefWidth="73.0" text="Bus:">
+                              <font>
+                                 <Font name="System Bold" size="15.0" />
+                              </font>
+                           </Label>
+                           <Label layoutX="18.0" layoutY="200.0" prefHeight="35.0" prefWidth="73.0" text="Seat:">
+                              <font>
+                                 <Font name="System Bold" size="15.0" />
+                              </font>
+                           </Label>
+                                   <Button layoutX="507.0" layoutY="218.0" onAction="#onAddBooking" prefHeight="35.0" prefWidth="85.0" text="Add Booking">
+                              <font>
+                                 <Font name="System Bold" size="11.0" />
+                              </font>
+                           </Button>
+                                   <Button layoutX="422.0" layoutY="218.0" onAction="#onClearForm" prefHeight="25.0" prefWidth="85.0" text="Clear">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Button>
+                                </children>
+                            </Pane>
+
+                            <!-- Add and Clear Buttons -->
+                            <HBox alignment="CENTER" spacing="15" />
+                        </children>
+                    </VBox>
+               <Pane prefHeight="200.0" prefWidth="200.0" />
+               <ImageView fitHeight="322.0" fitWidth="340.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../image/Gemini_Generated_Image_lklvbdlklvbdlklv.jpg" />
+                  </image>
+               </ImageView>
+               <Pane prefHeight="200.0" prefWidth="200.0" />
+
+                </children>
+            </HBox>
+
+            <!-- Booking Table -->
+            <TableView fx:id="bookingTable" prefHeight="545.0" prefWidth="1500.0">
+                <columns>
+                    <TableColumn fx:id="nameColumn" text="Name" />
+                    <TableColumn fx:id="contactColumn" text="Contact No." />
+                    <TableColumn fx:id="fromColumn" text="From" />
+                    <TableColumn fx:id="toColumn" text="To" />
+                    <TableColumn fx:id="busNameColumn" text="Bus Name" />
+                    <TableColumn fx:id="dateColumn" text="Date" />
+                    <TableColumn fx:id="seatsColumn" text="Seats" />
+                    <TableColumn fx:id="fareColumn" text="Fare" />
+                </columns>
+            </TableView>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER" spacing="20">
+                <Button onAction="#onExit" prefHeight="32.0" prefWidth="224.0" text="Exit" />
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>
