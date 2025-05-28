@@ -129,12 +129,14 @@ public class BusBookingController {
                 "Butuan", "Iligan", "Maramag", "Malaybalay", "Quezon", "Valencia"
         ));
         busNameComboBox.setItems(FXCollections.observableArrayList("Bus 101", "Bus 202", "Bus 303"));
-        seatComboBox.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5)); // Available seats
+        seatComboBox.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)); // Available seats
 
         // Define distances between destinations (in km)
         distances.put("Davao City-Cagayan de Oro", 233.0);
         distances.put("Davao City-General Santos", 145.0);
         distances.put("Davao City-Zamboanga City", 626.0);
+        distances.put("Davao City-Cagayan de Oro", 233.0); // Add this if not already included
+        distances.put("Cagayan de Oro-Davao City", 233.0); // Add reverse route
         distances.put("Davao City-Butuan", 230.0);
         distances.put("Davao City-Iligan", 289.0);
         distances.put("Davao City-Maramag", 172.0);
