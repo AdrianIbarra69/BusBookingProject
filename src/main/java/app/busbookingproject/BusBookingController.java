@@ -39,39 +39,56 @@ public class BusBookingController {
     private TableColumn<Booking, Integer> seatsColumn;
 
     @FXML
-    private TableColumn<Booking, String> fareColumn; // String for formatted fare
+    private TableColumn<Booking, String> fareColumn;
 
     // Form fields
     @FXML
     private TextField nameField;
-
     @FXML
     private TextField contactField;
-
     @FXML
     private ComboBox<String> fromComboBox;
-
     @FXML
     private ComboBox<String> toComboBox;
-
     @FXML
     private ComboBox<String> busNameComboBox;
-
     @FXML
     private ComboBox<Integer> seatComboBox;
-
     @FXML
     private DatePicker datePicker;
+
+    // Checkout and Payment fields
+    @FXML
+    private Label totalFareLabel;
+    @FXML
+    private TextField paymentField;
+    @FXML
+    private Label paymentStatusLabel;
+
+    // Dynamic selection output
+    @FXML
+    private Label selectedFromLabel;
+    @FXML
+    private Label selectedToLabel;
+    @FXML
+    private Label selectedBusLabel;
+    @FXML
+    private Label selectedSeatsLabel;
 
     // Data for the TableView
     private final ObservableList<Booking> bookingList = FXCollections.observableArrayList();
 
-    // Distance map to calculate fare (in kilometers between cities)
-    private final Map<String, Integer> distances = new HashMap<>();
+    // Distance map for route distances
+    private final Map<String, Double> distances = new HashMap<>();
 
     @FXML
     public void initialize() {
-        // Initialize TableView columns
+        populateComboBoxes();
+
+        // Bind booking data to the TableView
+        bookingTable.setItems(bookingList);
+
+        // Set TableView column mappings
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
@@ -79,131 +96,110 @@ public class BusBookingController {
         busNameColumn.setCellValueFactory(new PropertyValueFactory<>("busName"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         seatsColumn.setCellValueFactory(new PropertyValueFactory<>("seats"));
-        fareColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getFormattedFare()));
+        fareColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getFormattedFare()));
 
-        // Populate ComboBox choices and distances
-        populateComboBoxes();
-        populateDistances();
+        // Update output labels dynamically
+        fromComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            selectedFromLabel.setText(newVal != null ? newVal : "N/A");
+        });
 
-        // Bind data to the TableView
-        bookingTable.setItems(bookingList);
+        toComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            selectedToLabel.setText(newVal != null ? newVal : "N/A");
+        });
+
+        busNameComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            selectedBusLabel.setText(newVal != null ? newVal : "N/A");
+        });
+
+        seatComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            selectedSeatsLabel.setText(newVal != null ? newVal.toString() : "0");
+        });
+
+        calculateTotalFare(); // Initialize fare label
     }
 
     private void populateComboBoxes() {
-        // Cities in Mindanao (including added locations)
-        ObservableList<String> locations = FXCollections.observableArrayList(
-                "Davao", "Cagayan de Oro", "Zamboanga", "General Santos", "Butuan",
-                "Valencia", "Quezon", "Malaybalay"
-        );
+        // Adding destinations to ComboBoxes
+        fromComboBox.setItems(FXCollections.observableArrayList(
+                "Davao City", "Cagayan de Oro", "General Santos", "Zamboanga City",
+                "Butuan", "Iligan", "Maramag", "Malaybalay", "Quezon", "Valencia"
+        ));
+        toComboBox.setItems(FXCollections.observableArrayList(
+                "Davao City", "Cagayan de Oro", "General Santos", "Zamboanga City",
+                "Butuan", "Iligan", "Maramag", "Malaybalay", "Quezon", "Valencia"
+        ));
+        busNameComboBox.setItems(FXCollections.observableArrayList("Bus 101", "Bus 202", "Bus 303"));
+        seatComboBox.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5)); // Available seats
 
-        fromComboBox.setItems(locations);
-        toComboBox.setItems(locations);
+        // Define distances between destinations (in km)
+        distances.put("Davao City-Cagayan de Oro", 233.0);
+        distances.put("Davao City-General Santos", 145.0);
+        distances.put("Davao City-Zamboanga City", 626.0);
+        distances.put("Davao City-Butuan", 230.0);
+        distances.put("Davao City-Iligan", 289.0);
+        distances.put("Davao City-Maramag", 172.0);
+        distances.put("Davao City-Malaybalay", 192.0);
+        distances.put("Davao City-Quezon", 160.0);
+        distances.put("Davao City-Valencia", 180.0);
 
-        // Bus names
-        ObservableList<String> buses = FXCollections.observableArrayList(
-                "Mindanao Express", "Southern Comfort Lines", "Island Transport", "SkyLiner"
-        );
-        busNameComboBox.setItems(buses);
+        distances.put("Cagayan de Oro-Malaybalay", 112.0);
+        distances.put("Cagayan de Oro-Iligan", 88.0);
+        distances.put("Cagayan de Oro-Valencia", 102.0); // Added route (Cagayan to Valencia)
+        distances.put("Valencia-Cagayan de Oro", 102.0); // Added reverse route (Valencia to Cagayan)
+        distances.put("Malaybalay-Valencia", 25.0);
+        distances.put("Valencia-Malaybalay", 25.0); // Reverse route
 
-        // Seat options
-        ObservableList<Integer> seatOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        seatComboBox.setItems(seatOptions);
-    }
-
-    private void populateDistances() {
-        // Populate distances for major cities (in km)
-        distances.put("Davao-Cagayan de Oro", 274);
-        distances.put("Davao-Zamboanga", 760);
-        distances.put("Davao-General Santos", 150);
-        distances.put("Davao-Butuan", 283);
-        distances.put("Cagayan de Oro-Zamboanga", 475);
-        distances.put("Cagayan de Oro-General Santos", 300);
-        distances.put("Cagayan de Oro-Butuan", 147);
-        distances.put("Zamboanga-General Santos", 610);
-        distances.put("Zamboanga-Butuan", 830);
-        distances.put("General Santos-Butuan", 430);
-
-        // Added locations: Valencia, Quezon, Malaybalay
-        distances.put("Valencia-Cagayan de Oro", 118);
-        distances.put("Valencia-Malaybalay", 27);
-        distances.put("Valencia-Davao", 280);
-        distances.put("Valencia-Zamboanga", 820);
-        distances.put("Valencia-General Santos", 295);
-        distances.put("Valencia-Butuan", 190);
-
-        // Add Quezon-Valencia and reverse
-        distances.put("Quezon-Valencia", 50);  // Add the correct distance
-        distances.put("Valencia-Quezon", 50); // Reverse route
-
-        // Other Quezon-related distances
-        distances.put("Quezon-Davao", 300);
-        distances.put("Quezon-Cagayan de Oro", 140);
-        distances.put("Quezon-Malaybalay", 35);
-        distances.put("Malaybalay-Cagayan de Oro", 91);
-        distances.put("Malaybalay-Davao", 270);
-        distances.put("Malaybalay-General Santos", 287);
+        distances.put("Quezon-Valencia", 38.0);
+        distances.put("Maramag-Valencia", 15.0);
     }
 
     @FXML
     private void onAddBooking() {
         try {
-            // Get and validate user inputs
+            // Validate input fields
             String name = nameField.getText();
             String contact = contactField.getText();
             String from = fromComboBox.getValue();
             String to = toComboBox.getValue();
             String busName = busNameComboBox.getValue();
-            LocalDate date = datePicker.getValue();
             Integer seats = seatComboBox.getValue();
+            LocalDate date = datePicker.getValue();
 
-            // Validation
-            if (name.isEmpty() || contact.isEmpty() || from == null || to == null || busName == null || date == null || seats == null) {
-                showAlert(Alert.AlertType.ERROR, "Validation Error", "Please fill out all fields!");
+            if (name.isEmpty() || contact.isEmpty() || from == null || to == null || busName == null || seats == null || date == null) {
+                showAlert(Alert.AlertType.WARNING, "Form Error", "All fields must be filled out!");
                 return;
             }
 
             if (from.equals(to)) {
-                showAlert(Alert.AlertType.ERROR, "Validation Error", "Origin and destination cannot be the same!");
+                showAlert(Alert.AlertType.WARNING, "Form Error", "Origin and Destination cannot be the same!");
                 return;
             }
 
-            // Calculate the distance-based fare (no multiplication by number of seats)
-            String key = from + "-" + to;
-            if (!distances.containsKey(key)) {
-                key = to + "-" + from; // Check reverse route
-            }
-
-            // If no entry is found for the route, display an error.
-            if (!distances.containsKey(key)) {
-                showAlert(Alert.AlertType.ERROR, "Distance Error", "No valid route found between selected cities!");
+            // Calculate fare based on distance
+            String route = from + "-" + to;
+            if (!distances.containsKey(route)) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Route", "This route is not available or defined.");
                 return;
             }
+            double farePerKm = 5.0; // Reduced fare per km
+            double totalFare = distances.get(route) * farePerKm;
 
-            int distance = distances.get(key);
-            double fareRatePerKm = 2.50; // Base fare rate in PHP per kilometer
-
-            // Apply a specific rule for the Quezon to Valencia route
-            if ((from.equals("Quezon") && to.equals("Valencia")) || (from.equals("Valencia") && to.equals("Quezon"))) {
-                fareRatePerKm = 2.00; // Discounted rate for this route
-            }
-
-            double fare = distance * fareRatePerKm; // Calculated fare
-
-            // Create new booking
-            Booking booking = new Booking(name, contact, from, to, busName, date, seats, fare);
+            // Add booking to the table
+            Booking booking = new Booking(name, contact, from, to, busName, date, seats, totalFare);
             bookingList.add(booking);
 
-            // Clear form fields
-            onClearForm();
+            // Update total fare
+            calculateTotalFare();
 
+            // Clear the form
+            onClearForm();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add booking! Please ensure all fields are filled out correctly.");
+            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred: " + e.getMessage());
         }
     }
 
     @FXML
     private void onClearForm() {
-        // Clear all form fields
         nameField.clear();
         contactField.clear();
         fromComboBox.setValue(null);
@@ -211,11 +207,44 @@ public class BusBookingController {
         busNameComboBox.setValue(null);
         seatComboBox.setValue(null);
         datePicker.setValue(null);
+
+        // Reset labels
+        selectedFromLabel.setText("N/A");
+        selectedToLabel.setText("N/A");
+        selectedBusLabel.setText("N/A");
+        selectedSeatsLabel.setText("0");
     }
 
     @FXML
-    private void onExit() {
-        System.exit(0);
+    private void onCheckout() {
+        try {
+            double payment = Double.parseDouble(paymentField.getText().trim());
+            double totalFare = calculateTotalFare();
+
+            if (payment < totalFare) {
+                paymentStatusLabel.setStyle("-fx-text-fill: red;");
+                paymentStatusLabel.setText("Insufficient payment. Please provide more.");
+            } else {
+                double change = payment - totalFare;
+                paymentStatusLabel.setStyle("-fx-text-fill: green;");
+                paymentStatusLabel.setText("Payment successful! Change: ₱" + String.format("%.2f", change));
+                paymentField.clear();
+            }
+        } catch (NumberFormatException e) {
+            paymentStatusLabel.setStyle("-fx-text-fill: red;");
+            paymentStatusLabel.setText("Invalid payment amount. Please enter a numeric value.");
+        }
+    }
+
+    private double calculateTotalFare() {
+        double totalFare = 0;
+
+        for (Booking booking : bookingList) {
+            totalFare += booking.getFare();
+        }
+
+        totalFareLabel.setText("₱" + String.format("%.2f", totalFare));
+        return totalFare;
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -224,5 +253,10 @@ public class BusBookingController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onExit() {
+        System.exit(0);
     }
 }
