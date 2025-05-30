@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="ticketPane" alignment="TOP_CENTER" prefWidth="450.0" spacing="15.0" style="-fx-padding: 20; -fx-border-color: #B0BEC5; -fx-border-width: 1; -fx-background-color: #ECEFF1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.TicketViewController">
+    <children>
+        <Label text="BUS TICKET / RECEIPT" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #37474F;">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </Label>
+        <GridPane hgap="10.0" vgap="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 0);">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Ticket Number:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="ticketNumberLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Passenger:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label fx:id="passengerNameLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Route:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label fx:id="routeLabel" text="Origin To Destination" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Date:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label fx:id="dateTimeLabel" text="YYYY-MM-DD HH:MM AM/PM" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Bus Stop:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <Label fx:id="busStopLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Label text="Bus Number:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <Label fx:id="busNumberLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Label text="Seat(s):" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <Label fx:id="seatNumberLabel" text="N/A" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                <Label text="Total Fare:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <Label fx:id="totalFareLabelTicket" text="PhP 0.00" style="-fx-font-weight: bold; -fx-text-fill: green;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                <Label text="Payment Method:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <Label fx:id="paymentMethodLabelTicket" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+            </children>
+        </GridPane>
+        <ImageView fx:id="qrCodeImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </ImageView>
+        <Label text="Thank you for booking with us!" style="-fx-font-style: italic; -fx-text-fill: #546E7A;" />
+        <HBox alignment="CENTER" spacing="20.0">
+            <children>
+                <Button fx:id="printButton" onAction="#handlePrintTicket" text="Print / Save Ticket" style="-fx-background-color: #1E88E5; -fx-text-fill: white; -fx-font-weight: bold;" />
+                <Button onAction="#handleCloseTicket" text="Close" style="-fx-background-color: #78909C; -fx-text-fill: white;" />
+            </children>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+</VBox>
