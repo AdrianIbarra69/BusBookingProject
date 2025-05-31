@@ -1,83 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<VBox fx:id="ticketPane" alignment="TOP_CENTER" prefWidth="450.0" spacing="15.0" style="-fx-padding: 20; -fx-border-color: #B0BEC5; -fx-border-width: 1; -fx-background-color: #ECEFF1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.TicketViewController">
+<AnchorPane prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: #79c6ec;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.TicketViewController">
     <children>
-        <Label text="BUS TICKET / RECEIPT" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #37474F;">
-            <VBox.margin>
-                <Insets bottom="10.0" />
-            </VBox.margin>
-        </Label>
-        <GridPane hgap="10.0" vgap="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 0);">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
+        <VBox fx:id="ticketPane" alignment="TOP_CENTER" layoutX="25.0" layoutY="25.0" prefHeight="650.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.5, 0, 3);" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
             <children>
-                <Label text="Ticket Number:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Label fx:id="ticketNumberLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="closeButtonTicket" onAction="#handleCloseTicket" style="-fx-background-color: transparent; -fx-font-size: 18px; -fx-padding: 0;" text="‹" HBox.hgrow="NEVER" />
+                        <Label alignment="CENTER" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Your Ticket" HBox.hgrow="ALWAYS" />
+                        <VBox prefWidth="30" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
 
-                <Label text="Passenger:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <Label fx:id="passengerNameLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <children>
+                        <ImageView fx:id="passengerPhotoPlaceholder" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/bus_icon.png" />
+                     </image></ImageView>
+                        <VBox>
+                            <Label fx:id="passengerNameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #222;" text="Passenger Name" />
+                            <Label fx:id="dateLabelTicket" style="-fx-font-size: 12px; -fx-text-fill: #777;" text="Date" /> </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </HBox>
 
-                <Label text="Route:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Label fx:id="routeLabel" text="Origin To Destination" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <HBox alignment="CENTER" prefHeight="60.0" spacing="10.0">
+                    <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #555;" text="From" />
+                        <Label fx:id="originLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Origin City" />
+                        <Label fx:id="originDetailLabel" style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Origin Bus Stop" />
+                    </VBox>
+                    <ImageView fx:id="busIconView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                    <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #555;" text="To" />
+                        <Label fx:id="destinationLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Destination City" />
+                        <Label fx:id="destinationDetailLabel" style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Destination Bus Stop (if any)" />
+                    </VBox>
+                </HBox>
 
-                <Label text="Date:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <Label fx:id="dateTimeLabel" text="YYYY-MM-DD HH:MM AM/PM" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <HBox alignment="CENTER" prefHeight="40.0" spacing="10.0">
+                    <VBox.margin><Insets bottom="10.0" top="5.0" /></VBox.margin>
+                    <HBox alignment="CENTER" style="-fx-background-color: #e9f5fe; -fx-background-radius: 8; -fx-padding: 5 10;">
+                        <ImageView fx:id="timeIconView" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
+                        <VBox alignment="CENTER_LEFT">
+                            <Label style="-fx-font-size: 10px; -fx-text-fill: #0056b3;" text="DEPARTURE" />
+                            <Label fx:id="timeLabelTicket" style="-fx-font-size: 13px; -fx-text-fill: #007bff;" text="TBD">
+                                <HBox.margin><Insets left="5.0" /></HBox.margin>
+                            </Label>
+                        </VBox>
+                    </HBox>
+                    <HBox alignment="CENTER" style="-fx-background-color: #e9f5fe; -fx-background-radius: 8; -fx-padding: 5 10;">
+                        <VBox alignment="CENTER_LEFT">
+                            <Label style="-fx-font-size: 10px; -fx-text-fill: #0056b3;" text="EST. ARRIVAL" />
+                            <Label fx:id="arrivalTimeLabel" style="-fx-font-size: 13px; -fx-text-fill: #007bff;" text="TBD">
+                                <HBox.margin><Insets left="5.0" /></HBox.margin>
+                            </Label>
+                        </VBox>
+                    </HBox>
+                </HBox>
 
-                <Label text="Bus Stop:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                <Label fx:id="busStopLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <HBox alignment="CENTER_LEFT" spacing="5.0" style="-fx-padding: 5px 0px;">
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Booked on:" />
+                    <Label fx:id="bookingTimeLabel" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #555;" text="N/A" />
+                </HBox>
 
-                <Label text="Bus Number:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <Label fx:id="busNumberLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                <Label text="Seat(s):" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <Label fx:id="seatNumberLabel" text="N/A" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <Line endX="300.0" stroke="#DDDDDD">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="0" right="0" top="0" />
+                    </VBox.margin>
+                </Line>
 
-                <Label text="Total Fare:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                <Label fx:id="totalFareLabelTicket" text="PhP 0.00" style="-fx-font-weight: bold; -fx-text-fill: green;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <GridPane hgap="10.0" vgap="8.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <VBox alignment="CENTER_LEFT">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Bus Stop" />
+                            <Label fx:id="busStopLabel" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="Origin Terminal" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Bus No." />
+                            <Label fx:id="busNumberLabel" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="XYZ-123" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="2">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Ticket No." />
+                            <Label fx:id="ticketNumberLabel" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="TKT-0001" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Passenger(s)" />
+                            <Label fx:id="passengerCountLabel" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="1 Adult" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Seat No." />
+                            <Label fx:id="seatNumberLabel" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="A1, A2" wrapText="true" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Total Fare" />
+                            <Label fx:id="totalFareLabelTicket" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: green;" text="PhP 0.00" />
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: #777;" text="Payment Method" />
+                            <Label fx:id="paymentMethodLabelTicket" style="-fx-font-size: 13px; -fx-font-weight: bold;" text="GCash" />
+                        </VBox>
+                    </children>
+                    <VBox.margin><Insets bottom="15.0" top="5.0" /></VBox.margin>
+                </GridPane>
 
-                <Label text="Payment Method:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                <Label fx:id="paymentMethodLabelTicket" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <ImageView fx:id="qrCodeImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </ImageView>
 
+                <Button fx:id="printButton" onAction="#handlePrintTicket" prefHeight="40.0" prefWidth="310.0" styleClass="primary-button" text="Download Ticket" VBox.vgrow="NEVER" />
             </children>
-        </GridPane>
-        <ImageView fx:id="qrCodeImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-            <VBox.margin>
-                <Insets top="10.0" />
-            </VBox.margin>
-        </ImageView>
-        <Label text="Thank you for booking with us!" style="-fx-font-style: italic; -fx-text-fill: #546E7A;" />
-        <HBox alignment="CENTER" spacing="20.0">
-            <children>
-                <Button fx:id="printButton" onAction="#handlePrintTicket" text="Print / Save Ticket" style="-fx-background-color: #1E88E5; -fx-text-fill: white; -fx-font-weight: bold;" />
-                <Button onAction="#handleCloseTicket" text="Close" style="-fx-background-color: #78909C; -fx-text-fill: white;" />
-            </children>
-            <VBox.margin>
-                <Insets top="10.0" />
-            </VBox.margin>
-        </HBox>
+        </VBox>
     </children>
-</VBox>
+</AnchorPane>

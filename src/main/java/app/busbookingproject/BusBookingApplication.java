@@ -9,10 +9,12 @@ public class BusBookingApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loading_screen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 600);
+        // Load the login screen first
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login_screen.fxml"));
+        // Adjust preferred size for the login screen if different from loading/dashboard
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
 
-        primaryStage.setTitle("Bus Booking Application");
+        primaryStage.setTitle("Bus Booking System - Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

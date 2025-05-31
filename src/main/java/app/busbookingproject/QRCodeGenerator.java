@@ -6,7 +6,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import javafx.embed.swing.SwingFXUtils; // For JavaFX Image conversion
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -22,17 +22,17 @@ public class QRCodeGenerator {
         }
         try {
             Hashtable<EncodeHintType, Object> hintMap = new Hashtable<>();
-            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L); // L = ~7% correction
-            hintMap.put(EncodeHintType.MARGIN, 1); // Margin around QR code
+            hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            hintMap.put(EncodeHintType.MARGIN, 1);
 
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height, hintMap);
 
             BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
-            graphics.setColor(Color.WHITE); // Background
+            graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, width, height);
-            graphics.setColor(Color.BLACK); // QR Code color
+            graphics.setColor(Color.BLACK);
 
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {

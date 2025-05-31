@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<VBox alignment="CENTER" prefHeight="525.0" prefWidth="449.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #4facfe, #00f2fe);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.LoadingScreenController">
-   <ImageView fitHeight="294.0" fitWidth="299.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../images/Gemini_Generated_Image_lklvbdlklvbdlklv.jpg" />
-      </image>
-   </ImageView>
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="700.0" styleClass="loading-screen-root" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.LoadingScreenController">
+    <children>
+        <VBox alignment="CENTER" maxWidth="400.0" spacing="30.0">
+            <StackPane.margin>
+                <Insets bottom="50.0" />
+            </StackPane.margin>
+            <children>
+                <Label styleClass="loading-title" text="Bus Booking System">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
 
-    <!-- Loading Title -->
-    <Label style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;" text="Loading, please wait..." />
+                <Label styleClass="loading-status-label" text="Initializing application, please wait...">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
 
-    <!-- Progress Bar -->
-    <ProgressBar fx:id="progressBar" prefWidth="300" progress="0.52" style="-fx-accent: #ffffff;" />
-
-</VBox>
+                <ProgressBar fx:id="progressBar" prefWidth="350.0" progress="0.0" styleClass="loading-progress-bar" />
+            </children>
+        </VBox>
+        <Label styleClass="loading-footer" text="© 2025 Your Company" StackPane.alignment="BOTTOM_CENTER">
+            <StackPane.margin>
+                <Insets bottom="20.0" />
+            </StackPane.margin>
+        </Label>
+    </children>
+</StackPane>

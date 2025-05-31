@@ -1,18 +1,475 @@
 /* styles.css */
 
-/* Gradient Background for the VBox */
-.loading-screen {
-    -fx-background-color: linear-gradient(to bottom, #4facfe, #00f2fe);
+/* ==========================================================================
+   Global Styles / Root Configuration
+   ========================================================================== */
+.root { /* Applied to the root of the scene */
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Common modern font */
+    -fx-background-color: #E8EFF4; /* Default light background for other potential windows */
 }
 
-/* Loading Title Styling */
-.loading-label {
-    -fx-font-size: 18px;
+/* ==========================================================================
+   Dashboard Specific Background & Layout Panes
+   ========================================================================== */
+.dashboard-background {
+    /* Example Gradient: Deep Ocean Blue to Lighter Blue/Teal Gradient */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2E3192, #1BFFFF);
+    /* Other gradient examples (you can uncomment to try): */
+    /* -fx-background-color: linear-gradient(to bottom right, #FF8C42, #FFD369, #FFE8A1, #FFFADD); */ /* Sunset */
+    /* -fx-background-color: linear-gradient(to top left, #6a11cb, #2575fc); */ /* Purple Haze */
+    /* -fx-background-color: linear-gradient(to bottom right, #A1FFCE, #FAFFD1, #74ABE2); */ /* Soft Green to Blue */
+}
+
+.header-bar {
+    -fx-background-color: rgba(44, 62, 80, 0.85); /* Dark blue-gray, slightly transparent */
+    -fx-padding: 15px 25px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
     -fx-text-fill: white;
+}
+
+.form-sidebar {
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-background-radius: 8px;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0.3, 0, 5);
+    -fx-padding: 25px; /* This padding is for the VBox itself */
+}
+
+.main-content-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.90);
+    -fx-background-radius: 8px;
+    -fx-padding: 25px; /* This padding is for the VBox itself */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0.2, 0, 4);
+}
+
+/* ==========================================================================
+   Headers and Labels within Dashboard Sections
+   ========================================================================== */
+.sidebar-header, .content-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1A237E; /* Deep indigo for headers */
+    -fx-padding-bottom: 10px;
+    -fx-border-color: transparent transparent #90A4AE transparent; /* Lighter, bluish-gray border */
+    -fx-border-width: 1.5px;
+}
+.sidebar-subheader {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #3949AB; /* Indigo */
+}
+
+.form-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #37474F; /* Dark Slate Gray */
+    -fx-font-weight: 500; /* Medium weight */
+    -fx-padding: 6px 0 0 0; /* Align with text field baseline */
+}
+
+.form-label-sm { /* For smaller labels like in selected details box */
+    -fx-font-size: 12px;
+    -fx-text-fill: #455A64; /* Blue Gray */
+    -fx-font-weight: 500;
+}
+.form-value-sm {
+    -fx-font-size: 12px;
+    -fx-text-fill: #1A237E; /* Deep Indigo for values */
+    -fx-font-weight: normal;
+}
+
+.selected-details-box {
+    -fx-background-color: rgba(236, 239, 241, 0.8); /* Light Blue Gray, semi-transparent */
+    -fx-border-color: #B0BEC5; /* Softer border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 15px;
+}
+
+
+/* ==========================================================================
+   Input Controls: TextField, ComboBox, DatePicker
+   ========================================================================== */
+.text-field,
+.combo-box,
+.date-picker {
+    -fx-font-size: 13px;
+    -fx-pref-height: 40px; /* Slightly taller */
+    -fx-background-color: #FFFFFF; /* Solid white for readability */
+    -fx-border-color: #CFD8DC; /* Blue Gray border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-prompt-text-fill: #78909C;
+}
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8px;
+}
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #546E7A;
+}
+
+
+.text-field:focused,
+.combo-box:focused,
+.date-picker:focused .text-field {
+    -fx-border-color: #1976D2; /* Darker Blue focus */
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(25,118,210,0.3), 6, 0, 0, 2); /* More pronounced focus */
+}
+
+/* ComboBox specific styling for text visibility */
+.combo-box .list-cell {
+    -fx-background-color: transparent; /* Button part of ComboBox over its own background */
+    -fx-padding: 5px 8px;
+    /* Text color for the cell itself is not set here, relying on the label inside */
+}
+
+/* Style for the custom Label with class 'payment-method-label' inside ComboBox cells */
+.payment-method-label {
+    -fx-text-fill: #263238; /* Default dark text (for non-selected items on light backgrounds) */
+    -fx-padding: 0 0 0 5px; /* Optional: Add some left padding if icon and text are too close */
+}
+
+/* Style for the custom Label when its parent ListCell is selected WITHIN THE DROPDOWN POPUP */
+.combo-box-popup .list-view .list-cell:filled:selected .payment-method-label {
+    -fx-text-fill: white; /* White text for selected items in the dropdown */
+}
+
+/* Style for the custom Label when its parent ListCell is hovered WITHIN THE DROPDOWN POPUP */
+.combo-box-popup .list-view .list-cell:filled:hover .payment-method-label {
+    -fx-text-fill: #1976D2; /* Darker blue text on light blue hover background */
+}
+
+/* Ensure the label in the ComboBox button area (not in the popup) uses the default dark text */
+.combo-box > .list-cell .payment-method-label {
+     -fx-text-fill: #263238;
+}
+
+
+/* ComboBox dropdown list specific styling */
+.combo-box-popup .list-view {
+    -fx-background-color: white; /* Background of the entire dropdown */
+    -fx-border-color: #B0BEC5;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.2, 0, 3);
+}
+.combo-box-popup .list-view .list-cell {
+    -fx-padding: 10px 15px;
+    -fx-background-color: white; /* Default background for individual items in dropdown */
+}
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: #E3F2FD; /* Light blue hover background */
+}
+.combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #1976D2; /* Darker Blue selection background in dropdown */
+}
+
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.button {
+    -fx-font-size: 14px;
+    -fx-pref-height: 42px;
+    -fx-padding: 8px 22px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-text-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 5, 0.1, 0, 1);
+    -fx-transition: all 0.2s ease-in-out; /* Smooth hover transition for background and effects */
+}
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.2, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+
+.primary-button {
+    -fx-background-color: #1E88E5;
+    -fx-text-fill: white;
+}
+.primary-button:hover {
+    -fx-background-color: #1565C0;
+}
+
+.secondary-button-outline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1E88E5;
+    -fx-border-color: #1E88E5;
+    -fx-border-width: 1.5px;
+}
+.secondary-button-outline:hover {
+    -fx-background-color: rgba(30,136,229,0.1);
+    -fx-text-fill: #1565C0;
+    -fx-border-color: #1565C0;
+}
+
+.action-button-info {
+    -fx-background-color: #00ACC1;
+    -fx-text-fill: white;
+}
+.action-button-info:hover {
+    -fx-background-color: #00838F;
+}
+
+.danger-button {
+    -fx-background-color: #E53935;
+    -fx-text-fill: white;
+}
+.danger-button:hover {
+    -fx-background-color: #C62828;
+}
+
+/* ==========================================================================
+   TableView Styling
+   ========================================================================== */
+.table-view {
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-selection-bar: #1E88E5;
+    -fx-selection-bar-text: white;
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: rgba(207, 216, 220, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0.1, 0, 2);
+}
+
+.table-view:focused {
+    -fx-border-color: #1E88E5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: rgba(245, 247, 247, 0.85);
+    -fx-border-color: transparent transparent rgba(176, 190, 197, 0.7) transparent;
+    -fx-border-width: 0 0 1.5px 0;
+    -fx-background-radius: 8px 8px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 14px 10px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #263238;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-padding: 12px 10px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #212121;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent rgba(224, 224, 224, 0.6) transparent;
+    -fx-border-width: 1px;
+}
+
+.table-row-cell:odd {
+    /* -fx-background-color: rgba(249, 249, 249, 0.1); */ /* Optional striping, commented out for full transparency */
+}
+
+.table-row-cell:hover {
+    -fx-background-color: rgba(30, 136, 229, 0.15);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #1E88E5;
+}
+.table-row-cell:selected .table-cell,
+.table-row-cell:selected .table-cell .text {
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
+
+
+/* Buttons inside TableView cells */
+.table-view .button {
+    -fx-font-size: 11px;
+    -fx-padding: 4px 10px;
+    -fx-pref-height: 28px;
+    -fx-effect: none;
+}
+/* You can add specific styles for .table-view .button.primary-button etc. if needed */
+
+
+/* ==========================================================================
+   Dialog Pane Styles (for Checkout & Seat Selection)
+   ========================================================================== */
+.dialog-pane-background {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dialog-content-box {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);
+    -fx-max-width: 500px;
+    -fx-max-height: 650px;
+}
+
+.dialog-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #2C3E50;
+    -fx-padding-bottom: 10px;
+    -fx-border-color: transparent transparent #CFD8DC transparent;
+    -fx-border-width: 1.5px;
+    -fx-alignment: CENTER;
+    -fx-pref-width: Infinity;
+}
+
+.info-section-box {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.info-section-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #34495E;
+    -fx-padding-bottom: 5px;
+}
+
+.form-label-alt {
+    -fx-font-size: 13px;
+    -fx-text-fill: #546E7A;
+    -fx-font-weight: 500;
+}
+
+.form-value-alt {
+    -fx-font-size: 13px;
+    -fx-text-fill: #263238;
+    -fx-font-weight: normal;
+}
+
+.form-value-alt-prominent {
+    -fx-font-size: 14px;
+    -fx-text-fill: #00796B;
     -fx-font-weight: bold;
 }
 
-/* ProgressBar Accent Color */
-.progress-bar {
-    -fx-accent: #ffffff;
+.payment-status-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px;
+    -fx-background-radius: 4px;
+}
+
+/* Styles for Seat Selection Dialog */
+.seat-scroll-pane {
+    -fx-background-color: #F4F6F6;
+    -fx-border-color: #CFD8DC;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.seat-map-pane {
+    -fx-background-color: transparent;
+}
+
+.toggle-button.seat-button {
+    -fx-font-size: 11px;
+    -fx-pref-width: 45px;
+    -fx-pref-height: 45px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1px;
+    -fx-border-color: #B0BEC5;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #37474F;
+    -fx-alignment: CENTER;
+    -fx-wrap-text: true;
+}
+
+.toggle-button.seat-button:selected {
+    -fx-background-color: #1E88E5;
+    -fx-text-fill: white; /* Text color for selected seat button */
+    -fx-border-color: #1565C0;
+}
+
+.toggle-button.seat-button:disabled {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #757575;
+    -fx-opacity: 0.7;
+    -fx-border-color: #BDBDBD;
+}
+.toggle-button.seat-button:disabled .text {
+    -fx-strikethrough: false;
+}
+
+
+.selected-info-box {
+    -fx-background-color: #E3F2FD;
+    -fx-border-color: #90CAF9;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.selected-seats-text {
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #1976D2;
+}
+
+
+/* ==========================================================================
+   Loading Screen Styles
+   ========================================================================== */
+.loading-screen-root {
+    -fx-background-color: linear-gradient(to bottom right, #3A6EA5, #243B55);
+}
+.loading-title {
+    -fx-font-size: 32px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 1);
+}
+.loading-status-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #e0e0e0;
+}
+.loading-progress-bar {
+    -fx-pref-height: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.1, 0, 1);
+    -fx-skin: "com.sun.javafx.scene.control.skin.ProgressBarSkin";
+}
+.loading-progress-bar .bar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 3px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3px;
+}
+.loading-progress-bar .track {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-insets: 0;
+    -fx-background-radius: 3px;
+}
+.loading-footer {
+    -fx-font-size: 11px;
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
 }

@@ -4,7 +4,7 @@ module app.busbookingproject {
     requires javafx.web;
 
     // For ZXing QR Code generation and SwingFXUtils
-    requires com.google.zxing.core;  // This should be the correct automatic module name
+    requires com.google.zxing;       // Correct automatic module name for core ZXing library
     requires com.google.zxing.javase; // This should be the correct automatic module name
 
     requires java.desktop;           // For BufferedImage, Color, Graphics2D (used by ZXing's javase)

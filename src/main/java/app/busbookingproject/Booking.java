@@ -3,12 +3,13 @@ package app.busbookingproject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.text.NumberFormat; // For currency formatting
-import java.time.LocalDate;    // For dates
-import java.util.ArrayList;    // For creating lists
-import java.util.List;         // For using List interface
-import java.util.Locale;       // For currency locale (PHP)
-// No need for java.util.stream.Collectors for String.join
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime; // Import LocalDateTime
+import java.time.format.DateTimeFormatter; // Import DateTimeFormatter
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Booking {
     private final String name;
@@ -20,16 +21,18 @@ public class Booking {
     private final List<String> bookedSeatLabels;
     private final double fare;
 
-    // Ticket-specific information (can be set after booking confirmation)
     private final StringProperty ticketNumber;
-    private final StringProperty departureTime;
+    private final StringProperty departureTime; // This is likely the bus departure time
     private final StringProperty busStop;
 
-    // JavaFX Properties
     private final StringProperty formattedFare;
     private final StringProperty paymentStatus;
     private final StringProperty changeGiven;
     private final StringProperty seatsDisplay;
+
+    // New fields
+    private final LocalDateTime bookingCreationTime;
+    private final StringProperty busArrivalTime;
 
     public Booking(String name, String contact, String from, String to, String busName, LocalDate date,
                    List<String> bookedSeatLabels, double totalFareForBooking) {
@@ -39,7 +42,7 @@ public class Booking {
         this.to = to;
         this.busName = busName;
         this.date = date;
-        this.bookedSeatLabels = new ArrayList<>(bookedSeatLabels); // Defensive copy
+        this.bookedSeatLabels = new ArrayList<>(bookedSeatLabels);
         this.fare = totalFareForBooking;
 
         NumberFormat pesoFormat = NumberFormat.getCurrencyInstance(new Locale("en", "PH"));
@@ -49,9 +52,12 @@ public class Booking {
         this.seatsDisplay = new SimpleStringProperty(generateSeatsDisplayString());
 
         this.ticketNumber = new SimpleStringProperty("TBD");
-        this.departureTime = new SimpleStringProperty("TBD");
-        // Default bus stop to origin city, can be changed via setter
-        this.busStop = new SimpleStringProperty(this.from);
+        this.departureTime = new SimpleStringProperty("TBD"); // Example: "10:00 AM", should be set based on trip
+        this.busStop = new SimpleStringProperty(this.from); // Or specific terminal
+
+        // Initialize new fields
+        this.bookingCreationTime = LocalDateTime.now(); // Set booking creation time automatically
+        this.busArrivalTime = new SimpleStringProperty("TBD"); // Default to "To Be Determined"
     }
 
     private String generateSeatsDisplayString() {
@@ -61,7 +67,7 @@ public class Booking {
         return this.bookedSeatLabels.size() + " (" + String.join(", ", this.bookedSeatLabels) + ")";
     }
 
-    // Standard Getters
+    // Existing getters and property methods...
     public String getName() { return name; }
     public String getContact() { return contact; }
     public String getFrom() { return from; }
@@ -69,14 +75,13 @@ public class Booking {
     public String getBusName() { return busName; }
     public LocalDate getDate() { return date; }
     public double getFare() { return fare; }
-    public List<String> getBookedSeatLabels() { return new ArrayList<>(bookedSeatLabels); } // Defensive copy
+    public List<String> getBookedSeatLabels() { return new ArrayList<>(bookedSeatLabels); }
     public int getNumberOfSeatsBooked() { return this.bookedSeatLabels != null ? this.bookedSeatLabels.size() : 0; }
 
-    // JavaFX Property Accessors
-    public String getFormattedFare() { return formattedFare.get(); } // Corrected
+    public String getFormattedFare() { return formattedFare.get(); }
     public StringProperty formattedFareProperty() { return formattedFare; }
 
-    public String getPaymentStatus() { return paymentStatus.get(); } // Corrected
+    public String getPaymentStatus() { return paymentStatus.get(); }
     public void setPaymentStatus(String status) { this.paymentStatus.set(status); }
     public StringProperty paymentStatusProperty() { return paymentStatus; }
 
@@ -87,7 +92,6 @@ public class Booking {
     public String getSeatsDisplay() { return seatsDisplay.get(); }
     public StringProperty seatsDisplayProperty() { return seatsDisplay; }
 
-    // Getters and Setters for Ticket Information
     public String getTicketNumber() { return ticketNumber.get(); }
     public void setTicketNumber(String ticketNumber) { this.ticketNumber.set(ticketNumber); }
     public StringProperty ticketNumberProperty() { return ticketNumber; }
@@ -99,6 +103,23 @@ public class Booking {
     public String getBusStop() { return busStop.get(); }
     public void setBusStop(String busStop) { this.busStop.set(busStop); }
     public StringProperty busStopProperty() { return busStop; }
+
+    // New getters and property methods
+    public LocalDateTime getBookingCreationTime() { return bookingCreationTime; }
+
+    // Formatted booking creation time
+    public String getFormattedBookingCreationTime() {
+        if (this.bookingCreationTime != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss");
+            return this.bookingCreationTime.format(formatter);
+        }
+        return "N/A";
+    }
+
+    public String getBusArrivalTime() { return busArrivalTime.get(); }
+    public void setBusArrivalTime(String time) { this.busArrivalTime.set(time); } // Allow setting it later
+    public StringProperty busArrivalTimeProperty() { return busArrivalTime; }
+
 
     public boolean processPayment(double amountPaid) {
         if (amountPaid >= this.fare) {

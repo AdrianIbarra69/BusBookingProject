@@ -9,7 +9,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
-import javafx.scene.image.ImageView; // Only need ImageView here, Image is in PaymentMethodDisplay
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -75,15 +75,9 @@ public class CheckoutWindowController {
     private void populatePaymentMethods() {
         if (paymentMethodComboBox != null) {
             List<PaymentMethodDisplay> methods = new ArrayList<>();
-            System.out.println("[CheckoutCtrl DEBUG] Populating payment methods...");
-
-            // Ensure these filenames (e.g., "gcash_logo.png") EXACTLY match your files
-            // in src/main/resources/app/busbookingproject/images/
-            // Also ensure your folder is named "images" (plural) or adjust path in PaymentMethodDisplay.
             methods.add(new PaymentMethodDisplay("GCash", "gcash_logo.png"));
             methods.add(new PaymentMethodDisplay("Maya", "maya_logo.png"));
-            // If your card logo is card_logo.jpg, use that name here:
-            methods.add(new PaymentMethodDisplay("Credit/Debit Card", "card_logo.png")); // Or "card_logo.jpg"
+            methods.add(new PaymentMethodDisplay("Credit/Debit Card", "card_logo.png"));
             methods.add(new PaymentMethodDisplay("Online Bank Transfer", "bank_logo.png"));
 
             paymentMethodComboBox.setItems(FXCollections.observableArrayList(methods));
@@ -96,26 +90,26 @@ public class CheckoutWindowController {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        HBox hbox = new HBox(5); // 5px spacing
+                        HBox hbox = new HBox(5);
                         Label label = new Label(item.name());
-                        ImageView logoView = item.getLogoView(); // Calls the method in your record
+                        // ***** THIS LINE IS CRITICAL for CSS to target the label *****
+                        label.getStyleClass().add("payment-method-label");
+                        // *************************************************************
+                        ImageView logoView = item.getLogoView();
 
                         if (logoView != null && logoView.getImage() != null && !logoView.getImage().isError()) {
-                            // System.out.println("[CheckoutCtrl DEBUG] CellFactory: Logo is valid for " + item.name());
                             hbox.getChildren().addAll(logoView, label);
                         } else {
-                            // System.out.println("[CheckoutCtrl DEBUG] CellFactory: Logo NOT valid or image error for " + item.name());
-                            hbox.getChildren().add(label); // Only display text if logo is invalid
+                            hbox.getChildren().add(label);
                         }
                         setGraphic(hbox);
-                        setText(null); // We are using a graphic, so clear the default text
+                        setText(null);
                     }
                 }
             };
 
             paymentMethodComboBox.setCellFactory(cellFactory);
-            paymentMethodComboBox.setButtonCell(cellFactory.call(null)); // For the displayed selected item
-            System.out.println("[CheckoutCtrl DEBUG] Payment methods ComboBox populated and cell factories set.");
+            paymentMethodComboBox.setButtonCell(cellFactory.call(null));
         } else {
             System.err.println("[CheckoutCtrl ERROR] paymentMethodComboBox is null in populatePaymentMethods.");
         }
@@ -139,9 +133,12 @@ public class CheckoutWindowController {
         try {
             double paymentAmount = Double.parseDouble(paymentText.trim());
             if (currentBooking.processPayment(paymentAmount)) {
+                String ticketNo = TicketNumberGenerator.generateUniqueTicketNumber();
+                currentBooking.setTicketNumber(ticketNo);
+
                 paymentStatusLabel.setStyle("-fx-text-fill: green;");
-                paymentStatusLabel.setText("Payment successful via " + selectedPaymentMethodName + "! Change: " + currentBooking.getChangeGiven());
-                Utility.showAlert(Alert.AlertType.INFORMATION, "Payment Success", "Payment successful via " + selectedPaymentMethodName + "! Change: " + currentBooking.getChangeGiven());
+                paymentStatusLabel.setText("Payment successful via " + selectedPaymentMethodName + "! Change: " + currentBooking.getChangeGiven() + "\nTicket: " + ticketNo);
+                Utility.showAlert(Alert.AlertType.INFORMATION, "Payment Success", "Payment successful via " + selectedPaymentMethodName + "! Change: " + currentBooking.getChangeGiven() + "\nTicket Number: " + ticketNo);
                 paymentField.setDisable(true);
                 if (processPaymentButton != null) processPaymentButton.setDisable(true);
                 if (paymentMethodComboBox != null) paymentMethodComboBox.setDisable(true);

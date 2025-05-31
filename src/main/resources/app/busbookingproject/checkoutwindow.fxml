@@ -1,32 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.CheckoutWindowController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
-    <Label text="Booking Checkout" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-    <GridPane hgap="10" vgap="8">
-        <padding><Insets top="10" bottom="10" left="10" right="10"/></padding>
-        <Label text="Passenger Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/><Label fx:id="nameLabel" text="N/A" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        <Label text="Contact:" GridPane.rowIndex="1" GridPane.columnIndex="0"/><Label fx:id="contactLabel" text="N/A" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-        <Label text="From:" GridPane.rowIndex="2" GridPane.columnIndex="0"/><Label fx:id="fromLabel" text="N/A" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-        <Label text="To:" GridPane.rowIndex="3" GridPane.columnIndex="0"/><Label fx:id="toLabel" text="N/A" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-        <Label text="Bus Name:" GridPane.rowIndex="4" GridPane.columnIndex="0"/><Label fx:id="busNameLabel" text="N/A" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-        <Label text="Date:" GridPane.rowIndex="5" GridPane.columnIndex="0"/><Label fx:id="dateLabel" text="N/A" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-        <Label text="Seats:" GridPane.rowIndex="6" GridPane.columnIndex="0"/><Label fx:id="seatsLabel" text="N/A" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-        <Label text="Total Fare:" GridPane.rowIndex="7" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/><Label fx:id="totalFareLabel" text="₱0.00" GridPane.rowIndex="7" GridPane.columnIndex="1" style="-fx-font-weight: bold;"/>
-    </GridPane>
+<AnchorPane prefHeight="600.0" prefWidth="480.0" styleClass="dialog-pane-background" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.busbookingproject.CheckoutWindowController">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="dialog-content-box">
+            <padding>
+                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+            </padding>
+            <children>
+                <Label styleClass="dialog-header" text="Booking Checkout">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
 
-    <Label text="Payment Method:"/>
-    <ComboBox fx:id="paymentMethodComboBox" prefWidth="250.0" promptText="Select Payment Method"/>
+                <VBox spacing="8.0" styleClass="info-section-box">
+                    <padding><Insets top="15.0" bottom="15.0" left="20.0" right="20.0" /></padding>
+                    <children>
+                        <Label styleClass="info-section-header" text="Booking Summary" />
+                        <GridPane hgap="10.0" vgap="8.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" minWidth="100.0" prefWidth="120.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label styleClass="form-label-alt" text="Passenger:" />
+                                <Label fx:id="nameLabel" styleClass="form-value-alt" text="[Name]" GridPane.columnIndex="1" />
 
-    <Label text="Enter Payment Amount:"/>
-    <TextField fx:id="paymentField" promptText="Enter amount"/>
-    <Button fx:id="processPaymentButton" text="Process Payment" onAction="#onProcessPayment" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
-    <Label fx:id="paymentStatusLabel" text="" style="-fx-font-size: 14px;"/>
-    <Button text="Close" onAction="#onClose" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
-</VBox>
+                                <Label styleClass="form-label-alt" text="Contact:" GridPane.rowIndex="1" />
+                                <Label fx:id="contactLabel" styleClass="form-value-alt" text="[Contact]" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label styleClass="form-label-alt" text="From:" GridPane.rowIndex="2" />
+                                <Label fx:id="fromLabel" styleClass="form-value-alt" text="[Origin]" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                <Label styleClass="form-label-alt" text="To:" GridPane.rowIndex="3" />
+                                <Label fx:id="toLabel" styleClass="form-value-alt" text="[Destination]" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                <Label styleClass="form-label-alt" text="Bus Name:" GridPane.rowIndex="4" />
+                                <Label fx:id="busNameLabel" styleClass="form-value-alt" text="[Bus Name]" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                <Label styleClass="form-label-alt" text="Date:" GridPane.rowIndex="5" />
+                                <Label fx:id="dateLabel" styleClass="form-value-alt" text="[Date]" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                <Label styleClass="form-label-alt" text="Seats Booked:" GridPane.rowIndex="6" />
+                                <Label fx:id="seatsLabel" styleClass="form-value-alt" text="[Seats]" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                <Label styleClass="form-label-alt" text="Total Fare:" GridPane.rowIndex="7" />
+                                <Label fx:id="totalFareLabel" styleClass="form-value-alt-prominent" text="[Fare]" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                            </children>
+                        </GridPane>
+                    </children>
+                </VBox>
+
+                <Separator prefWidth="200.0">
+                    <VBox.margin>
+                        <Insets top="5.0" bottom="5.0" />
+                    </VBox.margin>
+                </Separator>
+
+                <VBox spacing="15.0">
+                    <children>
+                        <Label styleClass="info-section-header" text="Payment Details" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label styleClass="form-label-alt" text="Payment Method:" minWidth="120"/>
+                                <ComboBox fx:id="paymentMethodComboBox" prefWidth="250.0" promptText="Select Payment Method" HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label styleClass="form-label-alt" text="Amount Paid:" minWidth="120"/>
+                                <TextField fx:id="paymentField" promptText="Enter amount" HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
+                        <Label fx:id="paymentStatusLabel" styleClass="payment-status-label" text="Status: Not Paid" alignment="CENTER" maxWidth="Infinity" />
+                    </children>
+                </VBox>
+
+                <VBox VBox.vgrow="ALWAYS" /> <HBox alignment="CENTER" spacing="15.0">
+                <children>
+                    <Button fx:id="processPaymentButton" mnemonicParsing="false" onAction="#onProcessPayment" styleClass="primary-button" text="Process Payment" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button mnemonicParsing="false" onAction="#onClose" styleClass="secondary-button-outline" text="Close" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </children>
+            </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
